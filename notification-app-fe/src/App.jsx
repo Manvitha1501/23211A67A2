@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getNotifications } from "./api/notificationApi";
 import { Log } from "./utils/logger";
+import NotificationCard from "./components/NotificationCard";
 
 export default function App() {
   const [notifications, setNotifications] = useState([]);
@@ -16,8 +17,6 @@ export default function App() {
 
       const data = await getNotifications();
 
-      console.log(data.notifications[0]);
-
       setNotifications(data.notifications);
     }
 
@@ -25,27 +24,22 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      style={{
+        maxWidth: "900px",
+        margin: "40px auto",
+        padding: "20px",
+      }}
+    >
       <h1>Notifications App</h1>
 
       <h3>Total Notifications : {notifications.length}</h3>
 
       {notifications.map((item) => (
-        <div
+        <NotificationCard
           key={item.ID}
-          style={{
-            border: "1px solid gray",
-            padding: "10px",
-            marginTop: "15px",
-            borderRadius: "8px",
-          }}
-        >
-          <h3>{item.Type}</h3>
-
-          <p>{item.Message}</p>
-
-          <small>{item.Timestamp}</small>
-        </div>
+          item={item}
+        />
       ))}
     </div>
   );
