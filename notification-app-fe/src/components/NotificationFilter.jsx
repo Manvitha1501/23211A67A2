@@ -23,12 +23,19 @@ export default function NotificationFilter({
           onChange(newValue);
         }
       }}
-      size="small"
+      color="primary"
+      sx={{
+        mb: 3,
+      }}
     >
       {filters.map((type) => (
         <ToggleButton
           key={type}
           value={type}
+          sx={{
+            px: 3,
+            fontWeight: "bold",
+          }}
         >
           {type}
         </ToggleButton>
