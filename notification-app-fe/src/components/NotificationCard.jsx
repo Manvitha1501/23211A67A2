@@ -10,17 +10,11 @@ export default function NotificationCard({ item }) {
         boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
       }}
     >
-      <h2 style={{ margin: 0 }}>{item.Type}</h2>
+      <h2>{item.Type}</h2>
 
-      <p style={{ marginTop: "10px" }}>{item.Message}</p>
+      <p>{item.Message}</p>
 
-      <small
-        style={{
-          color: "gray",
-        }}
-      >
-        {item.Timestamp}
-      </small>
+      <small>{item.Timestamp}</small>
     </div>
   );
 }

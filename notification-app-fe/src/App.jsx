@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getNotifications } from "./api/notificationApi";
 import { Log } from "./utils/logger";
-import NotificationCard from "./components/NotificationCard";
+
+import NotificationList from "./components/NotificationList";
+import NotificationFilter from "./components/NotificationFilter";
 
 export default function App() {
   const [notifications, setNotifications] = useState([]);
+  const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     async function loadData() {
@@ -23,24 +26,35 @@ export default function App() {
     loadData();
   }, []);
 
+  const filteredNotifications = useMemo(() => {
+    if (filter === "All") {
+      return notifications;
+    }
+
+    return notifications.filter(
+      (item) => item.Type === filter
+    );
+  }, [notifications, filter]);
+
   return (
-    <div
-      style={{
-        maxWidth: "900px",
-        margin: "40px auto",
-        padding: "20px",
-      }}
-    >
+    <div style={{ padding: "20px" }}>
       <h1>Notifications App</h1>
 
-      <h3>Total Notifications : {notifications.length}</h3>
+      <h3>
+        Total Notifications : {filteredNotifications.length}
+      </h3>
 
-      {notifications.map((item) => (
-        <NotificationCard
-          key={item.ID}
-          item={item}
-        />
-      ))}
+      <NotificationFilter
+        value={filter}
+        onChange={setFilter}
+      />
+
+      <br />
+      <br />
+
+      <NotificationList
+        notifications={filteredNotifications}
+      />
     </div>
   );
 }
